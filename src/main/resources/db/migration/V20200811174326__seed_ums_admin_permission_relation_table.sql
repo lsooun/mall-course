@@ -1,0 +1,3 @@
+-- ----------------------------
+-- Records of ums_admin_permission_relation
+-- ----------------------------
