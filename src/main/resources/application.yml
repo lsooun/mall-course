@@ -9,3 +9,8 @@ spring:
     password: secret
   flyway:
     locations: classpath:db/migration
+
+mybatis:
+  config-location:
+    - classpath:mapper/*.xml
+    - classpath*:com/**/mapper/*.xml

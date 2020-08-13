@@ -4,9 +4,40 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <context id="MySqlContext" targetRuntime="MyBatis">
-        <
-        <javaModelGenerator targetPackage="" targetProject=""></javaModelGenerator>
-        <table tableName=""></table>
+    <!-- 引入配置文件 -->
+    <properties resource="generator.properties" />
+    <!-- context 是逆向工程的主要配置信息 -->
+    <!-- id：起个名字 -->
+    <!-- targetRuntime：设置生成的文件适用于那个 mybatis 版本 -->
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!-- 为模型生成序列化方法-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!-- 为生成的Java模型创建一个toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!-- 生成mapper.xml时覆盖原文件 -->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.connectionURL}"
+                        userId="${jdbc.userId}"
+                        password="${jdbc.password}">
+            <!-- 解决mysql驱动升级到8.0后不生成指定数据库代码的问题 -->
+            <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+        <!-- 指定生成model的路径 -->
+        <javaModelGenerator targetPackage="com.lsooun.mall.pojo" targetProject="src/main/java" />
+        <!-- 指定生成mapper.xml的路径，必须和Mapper接口的路径一致 -->
+        <sqlMapGenerator targetPackage="com.lsooun.mall.mapper" targetProject="src/main/resources" />
+        <!-- 指定生成mapper接口的的路径 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.lsooun.mall.mapper" targetProject="src/main/java" />
+        <!-- 指定要生成的表名，将tableName设为%则生成所有表 -->
+        <table tableName="%">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
     </context>
 </generatorConfiguration>
