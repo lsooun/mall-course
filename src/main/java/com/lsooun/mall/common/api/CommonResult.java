@@ -1,14 +1,17 @@
 package com.lsooun.mall.common.api;
 
+/**
+ * 通用返回对象
+ */
 public class CommonResult<T> {
     private long code;
     private String message;
     private T data;
 
-    public CommonResult() {
+    protected CommonResult() {
     }
 
-    public CommonResult(long code, String message, T data) {
+    protected CommonResult(long code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -74,15 +77,15 @@ public class CommonResult<T> {
     /**
      * 未登录返回结果
      */
-    public static <T> CommonResult<T> unauthorized() {
-        return failed(ResultCode.UNAUTHORIZED);
+    public static <T> CommonResult<T> unauthorized(T data) {
+        return new CommonResult<>(ResultCode.UNAUTHORIZED.getCode(), ResultCode.UNAUTHORIZED.getMessage(), data);
     }
 
     /**
      * 未授权返回结果
      */
-    public static <T> CommonResult<T> forbidden() {
-        return failed(ResultCode.FORBIDDEN);
+    public static <T> CommonResult<T> forbidden(T data) {
+        return new CommonResult<>(ResultCode.FORBIDDEN.getCode(), ResultCode.FORBIDDEN.getMessage(), data);
     }
 
     public long getCode() {
